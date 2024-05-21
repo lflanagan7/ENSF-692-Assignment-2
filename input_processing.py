@@ -1,31 +1,18 @@
 # input_processing.py
 # Laurel Flanagan, ENSF 692 P24
 # A terminal-based program for processing computer vision changes detected by a car.
-# Detailed specifications are provided via the Assignment 2 README file.
-# You must include the code provided below but you may delete the instructional comments.
-# You may add your own additional classes, functions, variables, etc. as long as they do not contradict the requirements (i.e. no global variables, etc.). 
-# You may import any modules from the standard Python library.
-# Remember to include your name and comments.
 
-
-
-# No global variables are permitted
-
-
-# You do not need to provide additional commenting above this class, just the user-defined functions within the class
 class Sensor:
 
-    # Must include a constructor that uses default values
-    # You do not need to provide commenting above the constructor
     def __init__(self):
         self.light = "green"
         self.pedestrian = "no"
         self.vehicle = "no"
 
-    # The update_status method passes the user inputs from input1 and input2 (menu and status) and the self parameter
+    # The update_status method passes the user inputs from menu and status and the self attribute
     # The values for light, pedestrian, and vehicle are updated based on the inputs specified by the user
     # Values are only updated if they are valid vision changes 
-    def update_status(self, input1, input2): # You may decide how to implement the arguments for this function
+    def update_status(self, input1, input2): 
         if (input1 == "1") and ((input2 == "green") or (input2 == "yellow") or (input2 == "red")):
             self.light = input2
         elif (input1 == "2") and ((input2 == "yes") or (input2 == "no")):
@@ -35,8 +22,8 @@ class Sensor:
         
 
 
-# The sensor object should be passed to this function to print the action message and current status
-# The print_message function displays a course of action message based on the user inputs
+# The sensor object is passed to this function to print the action message and current status
+# The print_message function displays a course of action message that is dependent on the user inputs
 # The function also displays the current values for the light, pedestrian, and vehicle parameters of the sensor object
 def print_message(sensor):
     if (sensor.light == "green") and (sensor.pedestrian == "no") and (sensor.vehicle == "no"):
@@ -53,56 +40,68 @@ def print_message(sensor):
     print("Light = ", sensor.light, ",", "Pedestrian = ", sensor.pedestrian, ",", "Vehicle = ", sensor.vehicle, ".")
   
 
-# Complete the main function below
 def main():
-    print("\n***ENSF 692 Car Vision Detector Processing Program***\n") #display program title
-    sensor = Sensor() #create new object of the Sensor class 
+    print("\n***ENSF 692 Car Vision Detector Processing Program***\n")
+    #Create new object of the Sensor class
+    sensor = Sensor() 
     x = True
-    while x == True: #loop continuously unless 0 is entered to end the program
-        print("Are changes detected in the vision input?") #display initial question
-        input1 = input("Select 1 for light, 2 for pedestrian, 3 for vehicle, or 0 to end the program: ") #prompt for user input
-   
-        if input1 == "0": #end loop if user enters 0
-            break
-        elif (input1 == "1"): #user selected 1 to update light status
-            input2 = input("What change has been identified?: ") #prompt for user input again
-            if (input2 == "green") or (input2 =="yellow") or (input2 == "red"): #if valid vision change for light is provided
-                sensor.update_status(input1, input2) #update status based on input 
-                print_message(sensor) #display course of action message and current values for light, pedestrian and vehicle 
-            else:
-                print("Invalid vision change.") #display message to let user know input is invalid
-                print_message(sensor) #display current values for light, pedestrian and vehicle of the sensor object
+    while x == True: 
+        try:
+            #First prompt for user input to select menu option
+            print("Are changes detected in the vision input?") 
+            input1 = input("Select 1 for light, 2 for pedestrian, 3 for vehicle, or 0 to end the program: ")
 
-        elif (input1 == "2"): #user selected 2 to update pedestrian status
-            input2 = input("What change has been identified?: ") #prompt for user input again 
-            if (input2 == "yes") or (input2 =="no"): #if valid vision change for pedestrian is provided
-                sensor.update_status(input1, input2) #update status based on input
-                print_message(sensor) #display course of action message and current values for light, pedestrian and vehicle 
-            else:
-                print("Invalid vision change.") #display message to let user know input is invalid 
-                print_message(sensor) #display current values for light, pedestrian and vehicle of the sensor object
+            #End program if user enters 0 
+            if input1 == "0":
+                break
+            
+            #If user selected 1 to update light status, prompt for user input again.
+            #If a valid vision change is provided, update status based on input, display message and current values.
+            #If invalid vision change is provided, display message to inform user and display current values. 
+            elif (input1 == "1"): 
+                input2 = input("What change has been identified?: ") 
+                if (input2 == "green") or (input2 =="yellow") or (input2 == "red"): 
+                    sensor.update_status(input1, input2) 
+                    print_message(sensor) 
+                else:
+                    print("Invalid vision change.") 
+                    print_message(sensor) 
+            
+            #If user selected 2 to update pedestrian status, prompt for user input again.
+            #If a valid vision change is provided, update status based on input, display message and current values.
+            #If invalid vision change is provided, display message to inform user and display current values.
+            elif (input1 == "2"): 
+                input2 = input("What change has been identified?: ") 
+                if (input2 == "yes") or (input2 =="no"): 
+                    sensor.update_status(input1, input2) 
+                    print_message(sensor) 
+                else:
+                    print("Invalid vision change.") 
+                    print_message(sensor) 
 
-        elif (input1 == "3"): #user selected 3 to update vehicle status 
-            input2 = input("What change has been identified?: ") #prompt user for input again
-            if(input2 == "yes") or (input2 == "no"): #if valid vision change for vehicle is provided
-                sensor.update_status(input1, input2) #update status based on input
-                print_message(sensor) #display course of action message and current values for light, pedestrian and vehicle
-            else:
-                print("Invalid vision change.") #display message to let user know input is invalid 
-                print_message(sensor) #display current values for light, pedestrian and vehicle of the sensor object
-
-        else: #if user enters something other than 0, 1, 2, or 3 provide message to let them know input is invalid and continue loop
-            try:
-                raise ValueError ("You must select either 1, 2, 3, or 0.") #ValueError if input is something other than 0, 1, 2, or 3
-                
-            except ValueError: #handle error such that program can continue
-                print("You must select either 1, 2, 3, or 0.") #display message to let user know input is invalid
-                print("\n")
-                continue #continues loop to prompt for input1 again 
+            #If user selected 3 to update vehicle status, prompt for user input again.
+            #If a valid vision change is provided, update status based on input, display message and current values.
+            #If invalid vision change is provided, display message to inform user and display current values.
+            elif (input1 == "3"): 
+                input2 = input("What change has been identified?: ") 
+                if(input2 == "yes") or (input2 == "no"): 
+                    sensor.update_status(input1, input2) 
+                    print_message(sensor) 
+                else:
+                    print("Invalid vision change.") 
+                    print_message(sensor) 
+            
+            
+            else: 
+                raise ValueError ("You must select either 1, 2, 3, or 0.") 
         
-            
-
-            
+        #If user enters something other than 0, 1, 2, or 3, display message to let them know input is invalid.
+        #Error is handled so that program can continue to ask user for inputs         
+        except ValueError: 
+                print("You must select either 1, 2, 3, or 0.") 
+                print("\n")
+                 
+    
 
 # Conventional Python code for running main within a larger program
 # No additional code should be included below this
